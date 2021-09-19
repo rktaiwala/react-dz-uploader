@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
+import { pdfjs, Document,Page } from 'react-pdf/dist/esm/entry.webpack';
 import LayoutDefault from './Layout'
 import InputDefault from './Input'
 import PreviewDefault from './Preview'
@@ -446,9 +446,11 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
     const isImage = type.startsWith('image/')
     const isAudio = type.startsWith('audio/')
     const isVideo = type.startsWith('video/')
-    if (!isImage && !isAudio && !isVideo) return
+    const isPDF   = type.startsWith('application/pdf')
+    if (!isImage && !isAudio && !isVideo && !isPDF) return
 
-    const objectUrl = URL.createObjectURL(file)
+    let objectUrl =''
+    if(!isPDF) objectUrl= URL.createObjectURL(file)
 
     const fileCallbackToPromise = (fileObj: HTMLImageElement | HTMLAudioElement) => {
       return Promise.race([
@@ -461,7 +463,41 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
         }),
       ])
     }
-
+    const fileCallbackToPdf =(file: Blob): Promise<string> =>{
+      return new Promise((resolve, reject) =>{
+        var fileReader = new FileReader(); 
+        fileReader.readAsDataURL(file);
+        fileReader.onload = function() {
+            //var pdfData = new Uint8Array(fileReader.result);
+            // Using DocumentInitParameters object to load binary data.
+            var loadingTask = pdfjs.getDocument(fileReader.result);
+            loadingTask.promise.then(function(pdf:Document) {
+                console.log('PDF loaded');
+                // Fetch the first page
+                var pageNumber = 1;
+                pdf.getPage(pageNumber).then(function(page:Page) {
+                console.log('Page loaded');
+                
+                var scale = 1.5;
+                var viewport = page.getViewport({scale: scale});
+    
+                // Prepare canvas using PDF page dimensions
+                const canvas = document.createElement('canvas');
+                const canvasContext = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                page.render({
+                    canvasContext, viewport
+                }).promise.then(() => {
+                    resolve(canvas.toDataURL('image/jpeg'));
+                })
+                });
+            });
+        };
+        
+        })
+    }
     try {
       if (isImage) {
         const img = new Image()
@@ -486,6 +522,16 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
         fileWithMeta.meta.duration = video.duration
         fileWithMeta.meta.videoWidth = video.videoWidth
         fileWithMeta.meta.videoHeight = video.videoHeight
+      }
+
+      if(isPDF){
+        const img = new Image()
+        img.src  = await fileCallbackToPdf(file);
+        fileWithMeta.meta.previewUrl = img.src
+        await fileCallbackToPromise(img)
+        fileWithMeta.meta.width = img.width
+        fileWithMeta.meta.height = img.height
+        
       }
       if (!isImage) URL.revokeObjectURL(objectUrl)
     } catch (e) {
