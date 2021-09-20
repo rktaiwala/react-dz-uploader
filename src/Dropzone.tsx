@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { pdfjs } from 'react-pdf/dist/esm/entry.webpack';
+import { pdfjs } from 'react-pdf/dist/esm/entry.webpack'
 import LayoutDefault from './Layout'
 import InputDefault from './Input'
 import PreviewDefault from './Preview'
@@ -14,7 +14,7 @@ import {
   defaultClassNames,
   getFilesFromEvent as defaultGetFilesFromEvent,
 } from './utils'
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`
 export type StatusValue =
   | 'rejected_file_type'
   | 'rejected_max_files'
@@ -446,11 +446,11 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
     const isImage = type.startsWith('image/')
     const isAudio = type.startsWith('audio/')
     const isVideo = type.startsWith('video/')
-    const isPDF   = type.startsWith('application/pdf')
+    const isPDF = type.startsWith('application/pdf')
     if (!isImage && !isAudio && !isVideo && !isPDF) return
 
-    let objectUrl =''
-    if(!isPDF) objectUrl= URL.createObjectURL(file)
+    let objectUrl = ''
+    if (!isPDF) objectUrl = URL.createObjectURL(file)
 
     const fileCallbackToPromise = (fileObj: HTMLImageElement | HTMLAudioElement) => {
       return Promise.race([
@@ -463,36 +463,35 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
         }),
       ])
     }
-    const fileCallbackToPdf =(file: File): Promise<string> =>{
+    const fileCallbackToPdf = (file: File): Promise<string> => {
       //console.log("DZ Uploader File:-"+file)
-      return new Promise((resolve) =>{
-        var fileReader = new FileReader(); 
-        fileReader.readAsDataURL(file);
+      return new Promise(resolve => {
+        var fileReader = new FileReader()
+        fileReader.readAsDataURL(file)
         fileReader.onload = async function() {
-            //var pdfData = new Uint8Array(fileReader.result);
-            // Using DocumentInitParameters object to load binary data.
-            //console.log(fileReader.result)
-            var loadingTask = pdfjs.getDocument(fileReader.result);
+          //var pdfData = new Uint8Array(fileReader.result);
+          // Using DocumentInitParameters object to load binary data.
+          //console.log(fileReader.result)
+          var loadingTask = pdfjs.getDocument(fileReader.result)
 
-            const pdf = await loadingTask.promise;
-            //console.log(pdf)
-            const page = await pdf.getPage(1);
+          const pdf = await loadingTask.promise
+          //console.log(pdf)
+          const page = await pdf.getPage(1)
 
-            var scale = 1.5;
-            var viewport = page.getViewport({scale: scale});
+          var scale = 1.5
+          var viewport = page.getViewport({ scale: scale })
 
-            // Prepare canvas using PDF page dimensions
-            const canvas = document.createElement('canvas');
-            const canvasContext = canvas.getContext('2d');
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
-            //console.log("DZ Uploader page render:-"+Date.now())
-            await page.render({canvasContext: canvasContext,viewport}).promise
-            //console.log("DZ Uploader Canvas:-"+Date.now()+"-"+canvas.toDataURL('image/jpeg'))
-            resolve(canvas.toDataURL('image/jpeg'));
-        };
-        
-        })
+          // Prepare canvas using PDF page dimensions
+          const canvas = document.createElement('canvas')
+          const canvasContext = canvas.getContext('2d')
+          canvas.height = viewport.height
+          canvas.width = viewport.width
+          //console.log("DZ Uploader page render:-"+Date.now())
+          await page.render({ canvasContext: canvasContext, viewport }).promise
+          //console.log("DZ Uploader Canvas:-"+Date.now()+"-"+canvas.toDataURL('image/jpeg'))
+          resolve(canvas.toDataURL('image/jpeg'))
+        }
+      })
     }
     try {
       if (isImage) {
@@ -520,15 +519,14 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
         fileWithMeta.meta.videoHeight = video.videoHeight
       }
 
-      if(isPDF){
+      if (isPDF) {
         const img = new Image()
-        let source  = await fileCallbackToPdf(file);
-        img.src  = source;
+        let source = await fileCallbackToPdf(file)
+        img.src = source
         fileWithMeta.meta.previewUrl = source
         await fileCallbackToPromise(img)
         fileWithMeta.meta.width = img.width
         fileWithMeta.meta.height = img.height
-        
       }
       if (!isImage) URL.revokeObjectURL(objectUrl)
     } catch (e) {
