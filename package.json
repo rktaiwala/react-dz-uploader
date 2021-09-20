@@ -1,6 +1,6 @@
 {
   "name": "react-dz-uploader",
-  "version": "2.11.9",
+  "version": "2.11.10",
   "author": "Rahul Taiwala",
   "description": "React file dropzone and uploader: fully customizable, progress indicators, upload cancellation and restart, zero deps and excellent TypeScript support",
   "main": "./dist/react-dropzone-uploader.js",

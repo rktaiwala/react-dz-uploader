@@ -464,18 +464,18 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
       ])
     }
     const fileCallbackToPdf =(file: File): Promise<string> =>{
-      console.log("DZ Uploader File:-"+file)
+      //console.log("DZ Uploader File:-"+file)
       return new Promise((resolve) =>{
         var fileReader = new FileReader(); 
         fileReader.readAsDataURL(file);
         fileReader.onload = async function() {
             //var pdfData = new Uint8Array(fileReader.result);
             // Using DocumentInitParameters object to load binary data.
-            console.log(fileReader.result)
+            //console.log(fileReader.result)
             var loadingTask = pdfjs.getDocument(fileReader.result);
 
             const pdf = await loadingTask.promise;
-            console.log(pdf)
+            //console.log(pdf)
             const page = await pdf.getPage(1);
 
             var scale = 1.5;
@@ -486,9 +486,9 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
             const canvasContext = canvas.getContext('2d');
             canvas.height = viewport.height;
             canvas.width = viewport.width;
-            console.log("DZ Uploader page render:-"+Date.now())
+            //console.log("DZ Uploader page render:-"+Date.now())
             await page.render({canvasContext: canvasContext,viewport}).promise
-            console.log("DZ Uploader Canvas:-"+Date.now()+"-"+canvas.toDataURL('image/jpeg'))
+            //console.log("DZ Uploader Canvas:-"+Date.now()+"-"+canvas.toDataURL('image/jpeg'))
             resolve(canvas.toDataURL('image/jpeg'));
         };
         
