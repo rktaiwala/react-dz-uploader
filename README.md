@@ -1,8 +1,8 @@
 # React Dz Uploader
 
 
-[![NPM](https://img.shields.io/npm/v/react-dropzone-uploader.svg)](https://www.npmjs.com/package/react-dz-uploader)
-[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/react-dropzone-uploader.svg)](https://www.npmjs.com/package/react-dz-uploader)
+[![NPM](https://img.shields.io/npm/v/react-dz-uploader.svg)](https://www.npmjs.com/package/react-dz-uploader)
+[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/react-dz-uploader.svg)](https://www.npmjs.com/package/react-dz-uploader)
 
 React Dz Uploader is a customizable file dropzone and uploader for React. It is same as the original react-dropzone-uploader except that it features for preview of PDF files while uploading.
 
@@ -28,12 +28,12 @@ React Dz Uploader is a customizable file dropzone and uploader for React. It is 
 
 
 ## Installation
-`npm install --save react-dropzone-uploader`
+`npm i react-dz-uploader`
 
 Import default styles in your app.
 
 ~~~js
-import 'react-dropzone-uploader/dist/styles.css'
+import 'react-dz-uploader/dist/styles.css'
 ~~~
 
 
@@ -41,8 +41,8 @@ import 'react-dropzone-uploader/dist/styles.css'
 RDU handles common use cases with almost no config. The following code gives you a dropzone and clickable file input that accepts image, audio and video files. It uploads files to `https://httpbin.org/post`, and renders a button to submit files that are done uploading. [Check out a live demo](https://react-dropzone-uploader.js.org/docs/quick-start).
 
 ~~~js
-import 'react-dropzone-uploader/dist/styles.css'
-import Dropzone from 'react-dropzone-uploader'
+import 'react-dz-uploader/dist/styles.css'
+import Dropzone from 'react-dz-uploader'
 
 const MyUploader = () => {
   // specify upload params and url for your files
@@ -82,20 +82,6 @@ Check out [the full table of RDU's props](https://react-dropzone-uploader.js.org
 \* requires `Promise` polyfill, e.g. [@babel/polyfill](https://babeljs.io/docs/en/babel-polyfill)
 
 
-## UMD Build
-This library is available as an ES Module at <https://unpkg.com/react-dropzone-uploader@VERSION/dist/react-dropzone-uploader.umd.js>.
-
-If you want to include it in your page, you need to include the dependencies and CSS as well.
-
-~~~html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.4.2/umd/react.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.4.2/umd/react-dom.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.2/prop-types.min.js"></script>
-
-<script src="https://unpkg.com/react-dropzone-uploader@VERSION/dist/react-dropzone-uploader.umd.js"></script>
-<link rel"stylesheet" href="https://unpkg.com/react-dropzone-uploader@VERSION/dist/styles.css"></script>
-~~~
-
 
 ## Contributing
 There are a number of places RDU could be improved; [see here](https://github.com/fortana-co/react-dropzone-uploader/labels/help%20wanted).
@@ -111,8 +97,8 @@ Thanks to @nchen63 for helping with [TypeScript defs](https://github.com/fortana
 Clone the project, install dependencies, and run the dev server.
 
 ~~~sh
-git clone git://github.com/fortana-co/react-dropzone-uploader.git
-cd react-dropzone-uploader
+git clone git://github.com/rktaiwala/react-dz-uploader.git
+cd react-dz-uploader
 yarn
 npm run dev
 ~~~
