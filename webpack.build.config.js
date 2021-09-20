@@ -12,7 +12,7 @@ function createConfig(entry, output) {
     entry,
     output,
     optimization: {
-      //minimizer: [new TerserPlugin()],
+      minimizer: [new TerserPlugin()],
     },
     module: {
       rules: [
