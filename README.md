@@ -1,8 +1,8 @@
 # React Dz Uploader
 
 
-[![NPM](https://img.shields.io/npm/v/react-dropzone-uploader.svg)](https://www.npmjs.com/package/react-dz-uploader)
-[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/react-dropzone-uploader.svg)](https://www.npmjs.com/package/react-dz-uploader)
+[![NPM](https://img.shields.io/npm/v/react-dz-uploader.svg)](https://www.npmjs.com/package/react-dz-uploader)
+[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/react-dz-uploader.svg)](https://www.npmjs.com/package/react-dz-uploader)
 
 React Dz Uploader is a customizable file dropzone and uploader for React. It is same as the original react-dropzone-uploader except that it features for preview of PDF files while uploading.
 
