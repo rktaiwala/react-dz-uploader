@@ -1,13 +1,14 @@
-# React Dropzone Uploader
+# React Dz Uploader
 
 
 [![NPM](https://img.shields.io/npm/v/react-dropzone-uploader.svg)](https://www.npmjs.com/package/react-dropzone-uploader)
 [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/react-dropzone-uploader.svg)](https://www.npmjs.com/package/react-dropzone-uploader)
 
-React Dropzone Uploader is a customizable file dropzone and uploader for React.
+React Dz Uploader is a customizable file dropzone and uploader for React. It is same as the original react-dropzone-uploader except that it features for preview of PDF files while uploading.
 
 
 ## Features
+- Preview for PDF files
 - Detailed file metadata and previews, especially for image, video and audio files
 - Upload status and progress, upload cancellation and restart
 - Easily set auth headers and additional upload fields ([see S3 examples](https://react-dropzone-uploader.js.org/docs/s3))
@@ -120,4 +121,6 @@ This runs code in `examples/src/index.js`, which has many examples that use `Dro
 
 
 ## Thanks
-Thanks to `react-dropzone`, `react-select`, and `redux-form` for inspiration.
+Thanks to `react-dropzone-uploader` ,`react-dropzone`, `react-select`, and `redux-form` for inspiration.
+
+This is just a fork of the original repo and all credit goes to the original author. 

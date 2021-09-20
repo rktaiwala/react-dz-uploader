@@ -97,8 +97,8 @@
 
 .dzu-previewImage {
   width: auto;
-  max-height: 40px;
-  max-width: 140px;
+  max-height: 200px;
+  max-width: 200px;
   border-radius: 4px;
 }
 

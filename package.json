@@ -1,6 +1,6 @@
 {
   "name": "react-dz-uploader",
-  "version": "2.11.1",
+  "version": "2.11.9",
   "author": "Rahul Taiwala",
   "description": "React file dropzone and uploader: fully customizable, progress indicators, upload cancellation and restart, zero deps and excellent TypeScript support",
   "main": "./dist/react-dropzone-uploader.js",
@@ -23,9 +23,9 @@
   },
   "license": "MIT",
   "peerDependencies": {
+    "prop-types": ">=15.5.10",
     "react": ">=16.2.0",
-    "react-dom": ">=16.2.0",
-    "prop-types": ">=15.5.10"
+    "react-dom": ">=16.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
@@ -39,9 +39,9 @@
     "@types/react-dom": "^16.8.3",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
-    "babel-loader": "^8.0.4",
+    "babel-loader": "^8.2.2",
     "babel-polyfill": "^6.26.0",
-    "css-loader": "^1.0.0",
+    "css-loader": "^6.3.0",
     "docusaurus-init": "^1.0.2",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
@@ -51,17 +51,17 @@
     "prettier": "1.16.4",
     "react": ">=16.2.0",
     "react-dom": ">=16.2.0",
-    "react-styleguidist": "^8.0.6",
+    "react-pdf": "^5.3.2",
+    "react-styleguidist": "^11.1.7",
     "react-test-renderer": "^16.6.3",
     "react-toastify": "^4.5.2",
     "style-loader": "^0.23.1",
-    "react-pdf": "^5.3.2",
     "typescript": "^3.4.1",
-    "uglifyjs-webpack-plugin": "^2.0.1",
-    "url-loader": "^1.1.2",
-    "webpack": "^4.21.0",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.14"
+    "terser-webpack-plugin": "^5.2.4",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.53.0",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.2.1"
   },
   "jest": {
     "moduleNameMapper": {
@@ -69,7 +69,7 @@
     }
   },
   "scripts": {
-    "build": "rm dist/* && tsc && NODE_ENV=production webpack --config webpack.build.config.js && cp src/styles.css dist/styles.css && cp src/*.ts* dist",
+    "build": "tsc && NODE_ENV=production webpack --config webpack.build.config.js && cp src/styles.css dist/styles.css && cp src/*.ts* dist",
     "dev": "tsc -w -p tsconfig.dev.json & webpack-dev-server --config webpack.config.js --mode development --open",
     "styleguide": "tsc -w & styleguidist server",
     "build-styleguide": "tsc && styleguidist build",
@@ -81,7 +81,8 @@
     "prettier": "prettier --write src/**/*.ts src/**/*.tsx"
   },
   "dependencies": {
-    "@babel/runtime": "^7.1.2"
+    "@babel/runtime": "^7.1.2",
+    "@types/react-pdf": "^5.0.6"
   },
   "husky": {
     "hooks": {

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { pdfjs, Document,Page } from 'react-pdf/dist/esm/entry.webpack';
+import { pdfjs } from 'react-pdf/dist/esm/entry.webpack';
 import LayoutDefault from './Layout'
 import InputDefault from './Input'
 import PreviewDefault from './Preview'
@@ -14,7 +14,7 @@ import {
   defaultClassNames,
   getFilesFromEvent as defaultGetFilesFromEvent,
 } from './utils'
-
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 export type StatusValue =
   | 'rejected_file_type'
   | 'rejected_max_files'
@@ -463,37 +463,33 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
         }),
       ])
     }
-    const fileCallbackToPdf =(file: Blob): Promise<string> =>{
-      return new Promise((resolve, reject) =>{
+    const fileCallbackToPdf =(file: File): Promise<string> =>{
+      console.log("DZ Uploader File:-"+file)
+      return new Promise((resolve) =>{
         var fileReader = new FileReader(); 
         fileReader.readAsDataURL(file);
-        fileReader.onload = function() {
+        fileReader.onload = async function() {
             //var pdfData = new Uint8Array(fileReader.result);
             // Using DocumentInitParameters object to load binary data.
+            console.log(fileReader.result)
             var loadingTask = pdfjs.getDocument(fileReader.result);
-            loadingTask.promise.then(function(pdf:Document) {
-                console.log('PDF loaded');
-                // Fetch the first page
-                var pageNumber = 1;
-                pdf.getPage(pageNumber).then(function(page:Page) {
-                console.log('Page loaded');
-                
-                var scale = 1.5;
-                var viewport = page.getViewport({scale: scale});
-    
-                // Prepare canvas using PDF page dimensions
-                const canvas = document.createElement('canvas');
-                const canvasContext = canvas.getContext('2d');
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-                
-                page.render({
-                    canvasContext, viewport
-                }).promise.then(() => {
-                    resolve(canvas.toDataURL('image/jpeg'));
-                })
-                });
-            });
+
+            const pdf = await loadingTask.promise;
+            console.log(pdf)
+            const page = await pdf.getPage(1);
+
+            var scale = 1.5;
+            var viewport = page.getViewport({scale: scale});
+
+            // Prepare canvas using PDF page dimensions
+            const canvas = document.createElement('canvas');
+            const canvasContext = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+            console.log("DZ Uploader page render:-"+Date.now())
+            await page.render({canvasContext: canvasContext,viewport}).promise
+            console.log("DZ Uploader Canvas:-"+Date.now()+"-"+canvas.toDataURL('image/jpeg'))
+            resolve(canvas.toDataURL('image/jpeg'));
         };
         
         })
@@ -526,8 +522,9 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
 
       if(isPDF){
         const img = new Image()
-        img.src  = await fileCallbackToPdf(file);
-        fileWithMeta.meta.previewUrl = img.src
+        let source  = await fileCallbackToPdf(file);
+        img.src  = source;
+        fileWithMeta.meta.previewUrl = source
         await fileCallbackToPromise(img)
         fileWithMeta.meta.width = img.width
         fileWithMeta.meta.height = img.height
